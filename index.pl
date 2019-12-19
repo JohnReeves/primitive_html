@@ -18,9 +18,11 @@ while (<DATA>){
   if ($_ =~ "H1"){
      my $index_file = substr($_, 7,-6);
      $index_file =~  s/(?<!^)\s(?!$)/_/g;
-     s/H1/a href="$index_file"/;
-     s/'/H1'/'/a'/;
-     print "$_";
+     my $line = s/H1/a href="$index_file"/;
+     $line = substr($_, 3,-6);
+     $line = "$line</a>";
+     # s/'/H1'/'/a'/;
+     print "$line \n";
   }
 }
 
