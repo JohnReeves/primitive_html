@@ -42,10 +42,10 @@ while (<DATA>){
      $line = "$line</a>";
      # s/'/H1'/'/a'/;
      print "$line \n";
-     @filenames.append($index_file);
+     push @filenames, $index_file;
     }
 }
-print @filenames;
+#print "file array: @filenames";
 
 print <<_FOOTER;
   </body>
