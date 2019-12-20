@@ -16,7 +16,7 @@ _HEADER
 # process the big html document
 my $content = 1;
 my $contentFile = "";
-my @sections = [];
+#my @filenames = [];
 
       # print "open content file to write here/n"
       # print "open index file to write here/n";
@@ -35,6 +35,7 @@ my @sections = [];
 while (<DATA>){
   if ($_ =~ "H1"){
      my $index_file = substr($_, 7,-6);
+     my $h1_line = $index_file;
      $index_file =~  s/(?<!^)\s(?!$)/_/g;
      
      my $line = s/H1/a href="$index_file"/;
@@ -43,14 +44,28 @@ while (<DATA>){
      # s/'/H1'/'/a'/;
      print "$line \n";
      push @filenames, $index_file;
+     push @h1_lines, $h1_line;
     }
 }
-#print "file array: @filenames";
+
+close(DATA);
+close(HTML);
+
+open(DATA, "<whole_document.htm") or die "Couldn't open file file.txt, $!";
+
+while (<DATA>){
+  if ($_ =~ "H1") {
+    foreach my $filename (@filenames){
+      print "$filename.html \n";
+      open(HTML, ">index.html");
+    }
+  }
+}
+
 
 print <<_FOOTER;
   </body>
 </html>
 _FOOTER
 
-close(DATA);
-close(HTML);
+
